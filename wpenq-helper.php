@@ -102,11 +102,13 @@ class WP_Enqueue_Helper {
      * @return string Full asset URL
      */
     public static function get_full_url($value) {
+        if((bool) preg_match("/^https?:\/\/.*$/xi", $value)) {
+            return $value;
+        }
         if (mb_stripos($value, 'custom') === 0) {
             return self::$plugin_url . 'assets/' . $value;
-        } else {
-            return self::$theme_url . $value;
         }
+        return self::$theme_url . $value;
     }
 
     public static function set_default_scripts($scripts) {
